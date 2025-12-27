@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ar">
+
+<head>
+    <meta charset="UTF-8">
+    <title>أنشطة الحروف العربية - نسخة تجريبية</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: url('images/backactivities_img.png') no-repeat center center;
+            background-size: cover;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        .main-container {
+            width: 90%;
+            max-width: 1000px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .page-title {
+            font-size: 3.5rem;
+            font-weight: bold;
+            color: #333;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .activities-container {
+            width: 90%;
+            max-width: 1100px;
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 50px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .activity-card {
+            transition: transform 0.3s ease-in-out;
+            cursor: pointer;
+            text-decoration: none;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .activity-card:hover {
+            transform: scale(1.1);
+        }
+
+        .card-image {
+            width: 220px;
+            height: 220px;
+            object-fit: contain;
+        }
+
+        /* القفل على الأنشطة المقفولة */
+        .activity-card.locked::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100px;
+            height: 100px;
+            background: url('images/lock.png') no-repeat center center;
+            background-size: contain;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .card-title-box {
+            background-color: #ff6b6b;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 25px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-top: 10px;
+        }
+
+        /* popup القفل */
+        .lock-popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 100;
+        }
+
+        .lock-popup.show {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .lock-content {
+            background: white;
+            padding: 40px;
+            border-radius: 30px;
+            text-align: center;
+            max-width: 400px;
+            animation: bounce 0.8s ease;
+        }
+
+        .lock-content img {
+            width: 150px;
+            margin-bottom: 20px;
+        }
+
+        .lock-content p {
+            font-size: 1.8rem;
+            color: #333;
+            margin: 15px 0;
+            font-weight: bold;
+        }
+
+        .lock-content .close-btn {
+            background: #ff6b6b;
+            color: white;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 1.4rem;
+            cursor: pointer;
+            margin-top: 20px;
+            display: inline-block;
+            transition: 0.3s;
+        }
+
+        .close-btn:hover {
+            background: #ee5a24;
+            transform: scale(1.05);
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: scale(0.9); }
+            50% { transform: scale(1.1); }
+        }
+
+        @media (max-width: 768px) {
+            .activities-container {
+                gap: 30px;
+                padding: 30px;
+            }
+
+            .card-image {
+                width: 180px;
+                height: 180px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .activities-container {
+                gap: 20px;
+                padding: 20px;
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+
+            .card-image {
+                width: 140px;
+                height: 140px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main-container">
+        <h1 class="page-title">أنشطتنا الجميلة</h1>
+
+        <div class="activities-container">
+            <!-- نشاط a - مفتوح -->
+            <a href="#" class="activity-card" data-activity="activity_a.html">
+                <img src="images/icon_a.png" class="card-image" alt="نشاط التعرف على الحروف">
+                <div class="card-title-box">التعرف على الحروف</div>
+            </a>
+
+            <!-- نشاط b - مقفول -->
+            <a href="#" class="activity-card locked" onclick="showLockPopup(); return false;">
+                <img src="images/icon_b.png" class="card-image" alt="نشاط مطابقة الحروف">
+                <div class="card-title-box">مطابقة الحروف بالصورة</div>
+            </a>
+
+            <!-- نشاط c - مفتوح -->
+            <a href="#" class="activity-card" data-activity="activity_c.html">
+                <img src="images/icon_c.png" class="card-image" alt="نشاط تحليل الكلمات">
+                <div class="card-title-box">تحليل الكلمات</div>
+            </a>
+
+            <!-- نشاط d - مقفول -->
+            <a href="#" class="activity-card locked" onclick="showLockPopup(); return false;">
+                <img src="images/icon_d.png" class="card-image" alt="نشاط تكوين الكلمات">
+                <div class="card-title-box">تكوين الكلمات</div>
+            </a>
+
+            <!-- نشاط e - مقفول -->
+            <a href="#" class="activity-card locked" onclick="showLockPopup(); return false;">
+                <img src="images/icon_e.png" class="card-image" alt="نشاط البحث عن الحرف">
+                <div class="card-title-box">البحث عن الحرف</div>
+            </a>
+
+            <!-- نشاط f - مفتوح -->
+            <a href="#" class="activity-card" data-activity="activity_f.html">
+                <img src="images/icon_f.png" class="card-image" alt="نشاط الحرف الناقص">
+                <div class="card-title-box">الحرف الناقص</div>
+            </a>
+        </div>
+    </div>
+
+    <!-- popup القفل -->
+    <div class="lock-popup" id="lockPopup">
+        <div class="lock-content">
+            <img src="images/lock.png" alt="قفل">
+            <p>هذا النشاط متاح في النسخة الكاملة!</p>
+            <p>جرب الأنشطة المفتوحة واستمتع 😊</p>
+            <div class="close-btn" onclick="closeLockPopup()">حسنًا</div>
+        </div>
+    </div>
+
+    <script>
+        // جلب المستوى المختار
+        const selectedLevel = sessionStorage.getItem('selectedLevel') || 'A';
+
+        // روابط الأنشطة المفتوحة
+        const openActivities = document.querySelectorAll('.activity-card:not(.locked)');
+        openActivities.forEach(card => {
+            const activityFile = card.getAttribute('data-activity');
+            card.href = `${activityFile}?level=${selectedLevel}`;
+        });
+
+        // popup القفل
+        function showLockPopup() {
+            document.getElementById('lockPopup').classList.add('show');
+        }
+
+        function closeLockPopup() {
+            document.getElementById('lockPopup').classList.remove('show');
+        }
+
+        document.addEventListener('contextmenu', e => e.preventDefault());
+    </script>
+</body>
+
+</html>
